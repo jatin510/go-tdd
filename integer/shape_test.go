@@ -45,15 +45,16 @@ func TestAreaNew(t *testing.T) {
 		shape Shape
 		want  float64
 	}{
-		{Rectangle{12, 6}, 72.0},
-		{Circle{10}, 314.1592653589793},
-		{Triangle{10, 10}, 50.0},
+		{shape: Rectangle{12, 6}, want: 72.0},
+		{shape: Circle{10}, want: 314.1592653589793},
+		{shape: Triangle{10, 10}, want: 50.0},
 	}
 
 	for _, tt := range areaTests {
 		got := tt.shape.Area()
 		if got != tt.want {
-			t.Errorf("got %g want %g", got, tt.want)
+
+			t.Errorf("%#v got %g want %g", tt.shape, got, tt.want)
 		}
 	}
 
