@@ -3,7 +3,9 @@ package integers
 import "testing"
 
 func TestPerimeter(t *testing.T) {
-	got := Perimeter(10, 10)
+	rectangle := Rectangle{10, 10}
+
+	got := Perimeter(rectangle)
 	want := 40.0
 
 	if got != want {
@@ -12,7 +14,9 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
-	got := Area(10, 10)
+	rectangle := Rectangle{10, 10}
+
+	got := Area(rectangle)
 	want := 100.0
 
 	if got != want {
