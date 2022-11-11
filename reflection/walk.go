@@ -23,6 +23,10 @@ func Walk(x interface{}, fn func(input string)) {
 		for _, key := range val.MapKeys() {
 			Walk(val.MapIndex(key).Interface(), fn)
 		}
+	case reflect.Chan:
+		for v, ok := val.Recv(); ok; v, ok = val.Recv() {
+			Walk(v.Interface(), fn)
+		}
 	}
 
 	for i := 0; i < numberOfValues; i++ {
