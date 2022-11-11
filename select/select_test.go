@@ -9,21 +9,23 @@ import (
 
 func TestRacker(t *testing.T) {
 
-	slowServer := makeDelayedServer(20 * time.Millisecond)
-	fastServer := makeDelayedServer(0 * time.Millisecond)
+	t.Run("Testing racer function", func(t *testing.T) {
+		slowServer := makeDelayedServer(20 * time.Millisecond)
+		fastServer := makeDelayedServer(0 * time.Millisecond)
 
-	slowUrl := slowServer.URL
-	fastUrl := fastServer.URL
+		slowUrl := slowServer.URL
+		fastUrl := fastServer.URL
 
-	want := fastUrl
-	got := Racer(fastUrl, slowUrl)
+		want := fastUrl
+		got := Racer(fastUrl, slowUrl)
 
-	if got != want {
-		t.Errorf("got %q want %q", got, want)
-	}
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
 
-	slowServer.Close()
-	fastServer.Close()
+		slowServer.Close()
+		fastServer.Close()
+	})
 }
 
 func makeDelayedServer(delay time.Duration) *httptest.Server {
