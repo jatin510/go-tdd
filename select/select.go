@@ -6,15 +6,10 @@ import (
 	"time"
 )
 
+const tenSecondTimeout = 10 * time.Second
+
 func Racer(a, b string) (winner string, error error) {
-	select {
-	case <-ping(a):
-		return a, nil
-	case <-ping(b):
-		return b, nil
-	case <-time.After(10 * time.Second):
-		return "", fmt.Errorf("timed out waiting for %s and %s", a, b)
-	}
+	return ConfigurableRacer(a, b, tenSecondTimeout)
 }
 
 // func measureResponseTime(url string) (responseDuration time.Duration) {
@@ -31,4 +26,15 @@ func ping(url string) chan struct{} {
 		close(ch)
 	}()
 	return ch
+}
+
+func ConfigurableRacer(a, b string, timeout time.Duration) (winner string, error error) {
+	select {
+	case <-ping(a):
+		return a, nil
+	case <-ping(b):
+		return b, nil
+	case <-time.After(timeout):
+		return "", fmt.Errorf("timed out waiting for %s and %s", a, b)
+	}
 }
